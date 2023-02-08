@@ -16,7 +16,7 @@
 
 import ml_collections
 
-NUM_EPOCHS = 200
+NUM_EPOCHS = 30
 TRAIN_EXAMPLES = 45000
 VALID_EXAMPLES = 10000
 
@@ -24,7 +24,7 @@ VALID_EXAMPLES = 10000
 def get_config():
   """Get the default hyperparameter configuration."""
   config = ml_collections.ConfigDict()
-  config.batch_size = 256
+  config.batch_size = 32
   config.eval_frequency = TRAIN_EXAMPLES // config.batch_size
   config.num_train_steps = (TRAIN_EXAMPLES // config.batch_size) * NUM_EPOCHS
   config.num_eval_steps = VALID_EXAMPLES // config.batch_size
@@ -33,8 +33,7 @@ def get_config():
 
   config.save_checkpoints = True
   config.restore_checkpoints = True
-  config.checkpoint_freq = (TRAIN_EXAMPLES //
-                            config.batch_size) * NUM_EPOCHS // 2
+  config.checkpoint_freq = (TRAIN_EXAMPLES // config.batch_size) #* NUM_EPOCHS // 2
   config.random_seed = 0
 
   config.learning_rate = .0005

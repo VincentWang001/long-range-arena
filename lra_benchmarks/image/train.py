@@ -13,6 +13,9 @@
 # limitations under the License.
 
 """Main training script for the image classification task."""
+# import sys
+# sys.path.insert(0, '/content/gdrive/My Drive/Research/LRA/long-range-arena')
+# print(sys.path)
 
 import functools
 import itertools
@@ -23,9 +26,11 @@ import time
 from absl import app
 from absl import flags
 from absl import logging
+from flax.deprecated import nn
 from flax import jax_utils
 from flax import optim
-from flax.deprecated import nn
+
+# from flax import linen as nn
 from flax.metrics import tensorboard
 from flax.training import checkpoints
 from flax.training import common_utils
@@ -33,12 +38,15 @@ import jax
 from jax import random
 import jax.nn
 import jax.numpy as jnp
+import task_registry
 from lra_benchmarks.image import task_registry
 from lra_benchmarks.utils import train_utils
 
 from ml_collections import config_flags
 import tensorflow.compat.v2 as tf
 
+
+print("everything is good!!")
 
 FLAGS = flags.FLAGS
 
@@ -228,7 +236,13 @@ def train_loop(config, dropout_rngs, eval_ds, eval_freq, num_eval_steps,
             FLAGS.model_dir,
             (jax_utils.unreplicate(optimizer), jax_utils.unreplicate(state)),
             step)
-
+        print("checkpoint saved! step = ", step)
+    
+    #my code here
+    if step % 200==0:
+        print("step: ", step)
+    #my code end here               
+               
     # Periodic metric handling.
     if step % eval_freq == 0 and step > 0:
       metrics_all = common_utils.get_metrics(metrics_all)
@@ -282,8 +296,8 @@ def train_loop(config, dropout_rngs, eval_ds, eval_freq, num_eval_steps,
 
 
 def main(argv):
-  if len(argv) > 1:
-    raise app.UsageError('Too many command-line arguments.')
+#   if len(argv) > 1:
+#     raise app.UsageError('Too many command-line arguments.')
 
   tf.enable_v2_behavior()
 

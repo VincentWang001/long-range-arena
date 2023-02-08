@@ -153,6 +153,9 @@ def get_pathfinder_base_datasets(n_devices,
   if split not in ['easy', 'intermediate', 'hard']:
     raise ValueError("split must be in ['easy', 'intermediate', 'hard'].")
 
+  # my code here
+  _PATHFINER_TFDS_PATH = '/content/gdrive/MyDrive/Research/LRA/long-range-arena/lra_benchmarks/TFDS'
+  # my code end here
   if resolution == 32:
     builder = pathfinder.Pathfinder32(data_dir=_PATHFINER_TFDS_PATH)
     inputs_shape = (batch_size, 32, 32, 1)
@@ -181,6 +184,7 @@ def get_pathfinder_base_datasets(n_devices,
   val_dataset = get_split(f'{split}[80%:90%]')
   test_dataset = get_split(f'{split}[90%:]')
 
+  print("THIS PART IS PASSED")
   def decode(x):
     decoded = {
         'inputs': tf.cast(tf.image.decode_png(x['image']), dtype=tf.int32),
